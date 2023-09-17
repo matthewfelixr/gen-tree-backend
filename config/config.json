@@ -1,23 +1,23 @@
 {
   "development": {
-    "username": "postgres",
-    "password": "admin",
-    "database": "skripsi",
-    "host": "127.0.0.1",
+    "username": "mottgsrwqiqxeu",
+    "password": "8c0772cbebf7a2fa423b5184e30e47c9e96df326fbaac423f83d2d7af8ff68f8",
+    "database": "d4q2ncul24splp",
+    "host": "ec2-52-1-92-133.compute-1.amazonaws.com",
     "dialect": "postgres"
   },
   "test": {
-    "username": "postgres",
-    "password": "admin",
-    "database": "skripsi",
-    "host": "127.0.0.1",
+    "username": "mottgsrwqiqxeu",
+    "password": "8c0772cbebf7a2fa423b5184e30e47c9e96df326fbaac423f83d2d7af8ff68f8",
+    "database": "d4q2ncul24splp",
+    "host": "ec2-52-1-92-133.compute-1.amazonaws.com",
     "dialect": "postgres"
   },
   "production": {
-    "username": "postgres",
-    "password": "admin",
-    "database": "skripsi",
-    "host": "127.0.0.1",
+    "username": "mottgsrwqiqxeu",
+    "password": "8c0772cbebf7a2fa423b5184e30e47c9e96df326fbaac423f83d2d7af8ff68f8",
+    "database": "d4q2ncul24splp",
+    "host": "ec2-52-1-92-133.compute-1.amazonaws.com",
     "dialect": "postgres"
   }
 }
