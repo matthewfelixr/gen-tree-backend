@@ -10,7 +10,7 @@ app.use(bodyParser.json());
 
 app.use(bodyParser.urlencoded({ extended: true}));
 
-const db = require("./models/");
+const db = require("./models");
 const dotenv = require("dotenv")
 dotenv.config()
 
