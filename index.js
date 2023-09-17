@@ -25,7 +25,7 @@ app.get("/", (req,res) => {
 });
 
 const router = require ("./routes/index")
-app.use("/", router)
+app.use("/api/v1", router)
 
 // express doesn't consider not found 404 as an error so we need to handle 404 explicitly
 // handle 404 error
