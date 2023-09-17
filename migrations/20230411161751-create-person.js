@@ -9,29 +9,58 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      firstName: {
+      nama: {
         type: Sequelize.STRING
       },
-      lastName: {
+      alias: {
+        type: Sequelize.STRING
+      },
+      nama_kecil: {
+        type: Sequelize.STRING
+      },
+      jabatan: {
+        type: Sequelize.STRING
+      },
+      awal_jabatan: {
+        type: Sequelize.STRING
+      },
+      akhir_jabatan: {
         type: Sequelize.STRING
       },
       gender: {
         type: Sequelize.STRING
       },
-      birth: {
+      tanggal_lahir: {
         type: Sequelize.DATE
       },
-      death: {
+      tanggal_wafat: {
         type: Sequelize.DATE
       },
-      father_id: {
-        type: Sequelize.INTEGER
+      alamat_makam: {
+        type: Sequelize.STRING
       },
-      mother_id: {
-        type: Sequelize.INTEGER
+      alamat: {
+        type: Sequelize.STRING
       },
-      child_id: {
-        type: Sequelize.INTEGER
+      parents: {
+        type: Sequelize.ARRAY(Sequelize.JSONB),
+        allowNull: true,
+        defaultValue: [],
+      },
+      children: {
+        type: Sequelize.ARRAY(Sequelize.JSONB),
+        allowNull: true,
+        defaultValue: [],
+      },
+      spouses: {
+        type: Sequelize.ARRAY(Sequelize.JSONB),
+        allowNull: true,
+        defaultValue: [],
+      },
+      siblings: {
+        type: Sequelize.ARRAY(Sequelize.JSONB),
+        allowNull: true,
+        defaultValue: [],
       },
       createdAt: {
         allowNull: false,
