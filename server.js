@@ -1,6 +1,6 @@
 const express = require("express");
 const cors = require("cors");
-
+const router = require('./routes/index')
 const app = express();
 
 var corsOptions = {
@@ -17,8 +17,10 @@ app.use(express.urlencoded({ extended: true }));
 
 // simple route
 app.get("/", (req, res) => {
-  res.json({ message: "Welcome to db." });
+  res.json({ message: "API is Online" });
 });
+app.use('/', router);
+
 
 // set port, listen for requests
 const PORT = process.env.PORT || 8080;
