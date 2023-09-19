@@ -17,6 +17,8 @@ const db = require("./models");
 const dotenv = require("dotenv")
 dotenv.config()
 
+console.log(process.env.DB_HOST)
+
 db.sequelize.sync();
 
 // db.sequelize.sync({ force: true }).then(() => {
