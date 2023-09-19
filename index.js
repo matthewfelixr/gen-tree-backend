@@ -5,8 +5,8 @@ const cors = require("cors")
 const app = express();
 
 app.use(cors({
-    origin: ['http://localhost:3000', 'https://genealogy-tree.vercel.app'],
-    credentials: true
+    origin: "*",
+    credentials: false
   }))
 
 app.use(bodyParser.json());
