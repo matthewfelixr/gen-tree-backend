@@ -712,3 +712,56 @@ exports.updatePeopleDeathStatus = async (req,res)=> {
     });
   }
 }
+exports.updatePeopleBiodata = async (req,res)=> {
+  try{
+    let {
+      id,
+      nama,
+      alias,
+      nama_kecil,
+      jabatan,
+      awal_jabatan,
+      akhir_jabatan,
+      gender,
+      tanggal_lahir,
+      tanggal_wafat,
+      alamat_makam,
+      alamat,
+     } = req.body
+    let people = await People.findOne({ where: { id: id } });
+    if (!people) {
+      res.status(500).send({
+        message:  "Gagal dalam mencari data anggota",
+      });
+    }
+
+    const updatedMember = await People.update(
+      { 
+        nama:nama,
+        alias:alias,
+        nama_kecil:nama_kecil,
+        jabatan:jabatan,
+        awal_jabatan:awal_jabatan,
+        akhir_jabatan:akhir_jabatan,
+        gender:gender,
+        tanggal_lahir:tanggal_lahir,
+        tanggal_wafat:tanggal_wafat,
+        alamat_makam:alamat_makam,
+        alamat:alamat
+      },
+      { where:
+        {
+        id:id
+        }
+      }
+    )
+    res.status(200).send({
+      success: true,
+      updatedMember,
+    });
+  } catch (err) {
+    res.status(500).send({
+      message: err.message || "Some error occured while getting People",
+    });
+  }
+}

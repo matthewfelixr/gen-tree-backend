@@ -11,5 +11,6 @@ router.post('/findRel', peopleController.getOnePeopleRelations)
 router.post('/',adminAuth,peopleController.addPeople)
 router.post('/addWithRelation', adminAuth,peopleController.addPeopleWithRelation)
 router.post('/addDeathDate', adminAuth,peopleController.updatePeopleDeathStatus)
+router.put('/updateBiodata', adminAuth,peopleController.updatePeopleBiodata)
 
 module.exports = router;
