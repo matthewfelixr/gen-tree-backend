@@ -875,12 +875,14 @@ exports.deletePeople = async (req, res) => {
       {parents :[], siblings:[], children:[],spouses:[]},
       {where :{id:id}}
     )
+    await People.destroy({where:{id:id}})
     console.log(deletedMember)
 
 
     res.status(200).send({
       success: true,
-      message:"Member Deleted Successfully"
+      message:"Member Deleted Successfully",
+      deletedMember
     });
   } catch (err) {
     console.log(err);
