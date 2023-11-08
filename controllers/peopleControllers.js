@@ -225,7 +225,7 @@ const sibling = async (id, newId) => {
         },
       }
       );
-      console.log(updatedMember1);
+      console.log(updatedMember2);
 
       const updatedSiblings = await People.findOne({where:{id:id}})
       if(updatedSiblings.siblings !== undefined){ addedSibling = updatedSiblings.siblings.slice()}
@@ -313,26 +313,30 @@ const spouse = async (id, newId) => {
           existingChild = result2.children.slice()
           console.log(result2.children)
           console.log(existingChild)
-          const updatedMember3 = await People.update(
-            { children: [...existingChild]},
-            {
-              where:{
-                id:newId
-              },
-            }
-          )
-          console.log("test")
-          console.log(updatedMember3)
-          for(let i = 0; i < existingChild.length; i++){
-            const updatedMember4 = await People.update(
-              { parents: [{id:id}, {id:newId}]},
+          console.log(result2.spouses.length)
+          if(result2.spouses.length === 1){
+            const updatedMember3 = await People.update(
+              { children: [...existingChild]},
               {
                 where:{
-                  id: existingChild[i].id
-                }
+                  id:newId
+                },
               }
             )
+            console.log("test")
+            console.log(updatedMember3)
+            for(let i = 0; i < existingChild.length; i++){
+              const updatedMember4 = await People.update(
+                { parents: [{id:id}, {id:newId}]},
+                {
+                  where:{
+                    id: existingChild[i].id
+                  }
+                }
+              )
+            }
           }
+
         }
       } catch (error) {
         console.error(error)
@@ -765,3 +769,123 @@ exports.updatePeopleBiodata = async (req,res)=> {
     });
   }
 }
+
+exports.deletePeople = async (req, res) => {
+  let {
+    id
+   } = req.body
+  try {
+    let people = await People.findOne({ where: { id: id } });
+    if (!people) {
+      res.status(500).send({
+        message:  "Gagal dalam mencari data anggota",
+      });
+    }
+    let membersParent = [];
+    let membersChildren = [];
+    let membersSpouses =[];
+    let membersSiblings=[];
+
+    let existingParent = [];
+    let existingChildren = [];
+    let existingSpouses =[];
+    let existingSiblings=[];
+    if (people !== undefined)
+    {
+      membersParent = people.parents.slice();
+      membersChildren = people.children.slice();
+      membersSpouses = people.spouses.slice();
+      membersSiblings = people.siblings.slice();
+    }
+    console.log(membersParent)
+    console.log("parent.length: ", membersParent.length);
+
+    if(membersParent.length !== 0){      
+      for(let i=0; i<membersParent.length; i++){
+        let result2 = await People.findOne({ where: { id: membersParent[i].id } });
+        console.log("Hello")
+        console.log(result2)
+        if(result2.children !== undefined){ existingChildren = result2.children.slice()}
+        let updatedChildren = existingChildren.filter(obj => obj.id !== id)
+        const updatedMember1 = await People.update(
+          { children: [...updatedChildren] },
+          { where:{
+              id:membersParent[i].id
+            }
+          }
+        )
+      }
+    }
+
+    console.log(membersSpouses)
+    console.log("spouses.length: ", membersSpouses.length);
+    if(membersSpouses.length !==0){
+      for(let i = 0; i<membersSpouses.length;i++){
+        console.log("Hey1")
+        console.log(membersSpouses[i].id)
+        let result3 = await People.findOne ({ where:{id: membersSpouses[i].id}})
+        console.log(result3)
+        if(result3.spouses !== undefined){ existingSpouses = result3.spouses.slice()}
+        let updatedSpouses = existingSpouses.filter(obj => obj.id !== id)
+        const updatedMember2 = await People.update(
+          { spouses: [...updatedSpouses]},
+          {where:{
+            id:membersSpouses[i].id
+          }}
+        )
+      }
+    }
+    console.log(membersChildren)
+    console.log(membersChildren.length)
+    console.log("children.length: ", membersChildren.length);
+    if(membersChildren.length !==0){
+      for(let i = 0; i<membersChildren.length;i++){
+        console.log("Hey2")
+        console.log(membersChildren[i].id)
+        let result4 = await People.findOne ({ where:{id: membersChildren[i].id}})
+        console.log(result4)
+        if(result4.parents !== undefined){ existingParent = result4.parents.slice()}
+        let updatedParents = existingParent.filter(obj => obj.id !== id)
+        const updatedMember3 = await People.update(
+          { parents: [...updatedParents]},
+          {where:{
+            id:membersChildren[i].id
+          }}
+        )
+      }
+    }
+    if(membersSiblings.length !==0){
+      for(let i = 0; i<membersSiblings.length;i++){
+        console.log("Hey3")
+        console.log(membersSiblings[i].id)
+        let result5 = await People.findOne ({ where:{id: membersSiblings[i].id}})
+        console.log(result5)
+        if(result5.parents !== undefined){ existingSiblings = result5.siblings.slice()}
+        let updatedSiblings = existingSiblings.filter(obj => obj.id !== id)
+        const updatedMember4 = await People.update(
+          { siblings: [...updatedSiblings]},
+          {where:{
+            id:membersSiblings[i].id
+          }}
+        )
+      }
+    }
+
+    const deletedMember = await People.update(
+      {parents :[], siblings:[], children:[],spouses:[]},
+      {where :{id:id}}
+    )
+    console.log(deletedMember)
+
+
+    res.status(200).send({
+      success: true,
+      message:"Member Deleted Successfully"
+    });
+  } catch (err) {
+    console.log(err);
+    res.status(500).send({
+      message: err.message || "Some error occured while deleting people data.",
+    });
+  }
+};
